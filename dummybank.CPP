@@ -227,6 +227,5 @@ void main()
 
 		}
 	while((x=='y')||(x=='Y'));
-	getch();
 
 }

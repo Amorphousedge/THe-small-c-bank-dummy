@@ -1,231 +1,195 @@
-#include<iostream.h>
-#include<conio.h>
-#include<string.h>
-#include<ctype.h>
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <string>
 
-class Account
-{
-	private:
-		unsigned int acc;
-		char *pass;
-	public:
-		float balance;
-		float wd;
-		float dep;
-		char name[20];
-		char *logpass;
-		unsigned int logacc;
-		int i;
+class Account {
+private:
+    unsigned int acc;
+    std::string pass;
 
-		void start(void);
-		void withdrawl(void);
-		void deposit(void);
-		void details(void);
-		void signup(void);
-		void login(void);
+public:
+    float balance;
+    float wd;
+    float dep;
+    std::string name;
+    std::string logpass;
+    unsigned int logacc;
 
+    Account() : balance(0), acc(0) {}
+
+    void start();
+    void withdraw();
+    void deposit();
+    void details();
+    void signup();
+    void login();
+    void saveData();
+    void loadData();
 };
-void Account::start(void)
-{
-	balance=0;
-	i=0;
-}
-void Account::withdrawl(void)
-{
-	if(balance>5000)
-	{       cout<<"\nEnter the Withdrawl Amount";
-		cin>>wd;
-		balance=balance-wd;
-		cout<<"\n"<<wd<<" is Withdrawn From balance,Your current balnce is "<<balance;
-	}
-	else
-	{
-		cout<<"\ninsufficient Minimum Balance,Please Deposit cash before Withdrawl";
-	}
-}
-void Account::deposit(void)
-{
-	cout<<"\nEnter Amount To be deposited ";
-	cin>>dep;
-	balance=balance+dep;
-	cout<<"\n"<<dep<<" is added in balance successfully";
-}
-void Account::details(void)
-{
-	cout<<"\n\t\t SASTA BANK";
-	cout<<"\n\t\t **********";
-	cout<<"\nAccount No.\tName\t\tBalance ";
-	cout<<"\n"<<acc<<"\t"<<name<<"\t"<<balance;
-}
-void Account::signup(void)
-{
-	cout<<"\nWelcome to SASTA BANK Account creation portal";
-	cout<<"\n*********************************************";
-	cout<<"\n\nENTER your Name:\t";
-	cin>>name;
-	cout<<"\nEnter your 9 digit account code you want for account";
-	cout<<"\n-----------------------------------------------------";
-	cout<<"\nNOTE:REMEMBER THIS AS YOU'LL REQUIRE IT WHILE LOGING IN ACCOUNT";
-	cout<<"\nAccount NO:\t";
-	cin>>acc;
-      Renterpass:cout<<"\nEnter your password atleast 9 digit account password you want for account";
-	cout<<"\n-----------------------------------------------------";
-	cout<<"\nNOTE:REMEMBER THIS AS YOU'LL REQUIRE IT WHILE LOGING IN ACCOUNT";
-	cout<<"\nPASSWORD:\t";
-	cin>>pass;
-	i=strlen(pass);
-	if(i<9)
-	{       cout<<"Insuffient length of password";
-		cout<<"\nRe-enter your Password atleast 9 digit account password you want for account";
-		cout<<"\n-----------------------------------------------------";
-		cout<<"\nNOTE:REMEMBER THIS AS YOU'LL REQUIRE IT WHILE LOGING IN ACCOUNT";
-		goto Renterpass;
 
-	}
-	cout<<"\nYou have to keep minimum balance of 5000 in Account before using Our services";
-	cout<<"\nWant to Add Minimum balance now if Yes press 1 Else 2\n";
-	cin>>i;
-	if(i==1)
-	{
-		deposit();
-	}
-	else
-	{
-		cout<<"\nITS Ok But don't forget to Add it Later ;)";
-	}
-
-}
-void Account::login(void)
-{       i=0;
-       Renter:	cout<<"\nENTER Correct ACCOUNT NO. and Password Combination For Accessing or Services";
-	cout<<"\nAccount no:\t";
-	cin>>logacc;
-	cout<<"\nPassword:\t";
-	cin>>logpass;
-	while((logacc!=acc)&&(0!=strcmp(logpass,pass)))
-	{
-		if((logacc!=acc)&&(0!=strcmp(logpass,pass)))
-		{
-			i=+1;
-			if(i==3)
-			{
-				cout<<"\nDid you Forget Password press 1 if yes 2 if you remember";
-				cin>>i;
-				if(i==1)
-				{
-					break;
-				}
-				else
-				{
-					goto Renter;
-				}
-
-			}
-		}
-	 }
-	 if(i==1)
-	 {
-		cout<<"\nEnter your 9 digit account code you want for account";
-		cout<<"\n-----------------------------------------------------";
-		cout<<"\nNOTE:REMEMBER THIS AS YOU'LL REQUIRE IT WHILE LOGING IN ACCOUNT";
-		cout<<"\nAccount No:\t";
-		cin>>acc;
-		Renterpass:cout<<"\nEnter your password atleast 9 digit account password you want for account";
-		cout<<"\n-----------------------------------------------------";
-		cout<<"\nNOTE:REMEMBER THIS AS YOU'LL REQUIRE IT WHILE LOGING IN ACCOUNT";
-		cout<<"\nPassword:\t";
-		cin>>pass;
-		i=strlen(pass);
-		if(i<9)
-		{       cout<<"\nInsuffient length of password ";
-			cout<<"\nRe-enter your Password atleast 9 digit account password you want for account";
-			cout<<"\n-----------------------------------------------------";
-			cout<<"\nNOTE:REMEMBER THIS AS YOU'LL REQUIRE IT WHILE LOGING IN ACCOUNT";
-			goto Renterpass;
-
-		}
-
-	 }
+void Account::start() {
+    balance = 0;
 }
 
-void main()
-{
-		Account a;
-		int j=0,y=0;
-		char x;
-		clrscr();
-		a.start();
-		cout<<"\n\t\tWelcome TO Sasta Bank";
-		cout<<"\n\t\t---------------------";
-		do
-		{
-			cout<<"\nCHOOSE Option from the given menu ";
-			cout<<"\n1:Create Account(Ignore IF created Already created)";
-			cout<<"\n2:Login(necessarry to use the other services";
-			cout<<"\nonly Add option no. associated With action";
-			cout<<"\nEnter Your Choice:\t";
-			cin>>j;
-			switch(j)
-			{
-				case 1:
-				{      	y=0;
-					a.signup();
-					y=+1;
-					break;
-				}
-				case 2:
-				{     if(y!=0)
-					{
-						a.login();
+void Account::withdraw() {
+    std::cout << "\nEnter the Withdraw Amount: ";
+    std::cin >> wd;
+    if (balance >= wd) {
+        balance -= wd;
+        std::cout << "\n" << wd << " is Withdrawn from balance. Your current balance is " << balance << "\n";
+    } else {
+        std::cout << "\nInsufficient Balance, Please Deposit cash before Withdraw.\n";
+    }
+    saveData();
+}
 
-						do
-						{       j=0;
-							cout<<"\nLogin Succesful ENjoy your Services";
-							cout<<"\nCHOOSE Option from the given menu ";
-							cout<<"\n1:Withdrawl";
-							cout<<"\n2:Deposit";
-							cout<<"\n3:Details";
-							cout<<"\n4:exit";
-							cout<<"\nonly Add option no. associated With action";
-							cout<<"\nEnter Your Choice:\t";
-							cin>>j;
-							switch(j)
-								{
-									case 1:
-									{
-										a.withdrawl();
-										break;
+void Account::deposit() {
+    std::cout << "\nEnter Amount to be deposited: ";
+    std::cin >> dep;
+    balance += dep;
+    std::cout << "\n" << dep << " is added to balance successfully.\n";
+    saveData();
+}
 
-									}
-									case 2:
-									{
-										a.deposit();
-										break;
-									}
-									case 3:
-									{
-										a.details();
-										break;
+void Account::details() {
+    std::cout << "\n\t\tSASTA BANK\n";
+    std::cout << "\nAccount No.\tName\t\tBalance\n";
+    std::cout << acc << "\t" << name << "\t" << balance << "\n";
+}
 
-									}
-								}
-								cout<<"\nWant to Continue[y/n]:\t";
-								cin>>x;
-						}
-						while((x=='Y')||(x=='y'));
+void Account::signup() {
+    std::cout << "\nWelcome to SASTA BANK Account creation portal\n";
+    std::cout << "\nENTER your Name: ";
+    std::cin >> name;
+    std::cout << "\nEnter your 9 digit account code: ";
+    std::cin >> acc;
+    std::cout << "\nEnter your password (at least 9 characters): ";
+    std::cin >> pass;
 
-					}
-					else
-					{
-						cout<<"\nFirst Create Account before Loging in and try again";
-					}
-					break;
-				}
-			}
-		cout<<"\nWant to continue[y/n]:\t";
-		cin>>x;
+    if (pass.length() < 9) {
+        std::cout << "Insufficient length of password. Please retry.\n";
+        signup();
+    }
 
-		}
-	while((x=='y')||(x=='Y'));
+    std::cout << "\nYou have to keep a minimum balance of 5000 in Account before using our services.\n";
+    std::cout << "Want to add minimum balance now? If Yes press 1, Else press 2: ";
+    int choice;
+    std::cin >> choice;
+    if (choice == 1) {
+        deposit();
+    } else {
+        std::cout << "\nIt's OK, but don't forget to add it later.\n";
+    }
+    saveData();
+}
 
+void Account::login() {
+    for (int i = 0; i < 3; ++i) {
+        std::cout << "\nENTER Correct ACCOUNT NO. and Password Combination for Accessing our Services\n";
+        std::cout << "Account no: ";
+        std::cin >> logacc;
+        std::cout << "Password: ";
+        std::cin >> logpass;
+
+        if (logacc == acc && logpass == pass) {
+            std::cout << "\nLogin Successful! Enjoy your Services.\n";
+            return;
+        } else {
+            std::cout << "\nIncorrect Account No. or Password. Please try again.\n";
+        }
+    }
+
+    std::cout << "\nDid you Forget Password? Press 1 if yes, 2 if you remember: ";
+    int choice;
+    std::cin >> choice;
+    if (choice == 1) {
+        signup();
+    }
+}
+
+void Account::saveData() {
+    std::ofstream outFile("account_data.txt");
+    if (outFile.is_open()) {
+        outFile << acc << "\n";
+        outFile << pass << "\n";
+        outFile << balance << "\n";
+        outFile << name << "\n";
+        outFile.close();
+    } else {
+        std::cout << "Unable to open file for writing.\n";
+    }
+}
+
+void Account::loadData() {
+    std::ifstream inFile("account_data.txt");
+    if (inFile.is_open()) {
+        inFile >> acc;
+        inFile >> pass;
+        inFile >> balance;
+        inFile >> name;
+        inFile.close();
+    } else {
+        std::cout << "Unable to open file for reading.\n";
+    }
+}
+
+int main() {
+    Account a;
+    a.start();
+    a.loadData();
+
+    std::cout << "\n\t\tWelcome TO Sasta Bank\n";
+
+    char x;
+    do {
+        std::cout << "\nCHOOSE Option from the given menu:\n";
+        std::cout << "1: Create Account (Ignore if already created)\n";
+        std::cout << "2: Login (necessary to use other services)\n";
+        std::cout << "Enter Your Choice: ";
+        int choice;
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1:
+                a.signup();
+                break;
+            case 2:
+                a.login();
+                char x;
+                do {
+                    std::cout << "\nCHOOSE Option from the given menu:\n";
+                    std::cout << "1: Withdraw\n";
+                    std::cout << "2: Deposit\n";
+                    std::cout << "3: Details\n";
+                    std::cout << "4: Exit\n";
+                    std::cout << "Enter Your Choice: ";
+                    std::cin >> choice;
+                    switch (choice) {
+                        case 1:
+                            a.withdraw();
+                            break;
+                        case 2:
+                            a.deposit();
+                            break;
+                        case 3:
+                            a.details();
+                            break;
+                        case 4:
+                            return 0;
+                        default:
+                            std::cout << "\nInvalid Choice. Please try again.\n";
+                    }
+                    std::cout << "\nWant to continue? [y/n]: ";
+                    std::cin >> x;
+                } while (x == 'y' || x == 'Y');
+                break;
+            default:
+                std::cout << "\nInvalid Choice. Please try again.\n";
+        }
+        std::cout << "\nWant to continue? [y/n]: ";
+        std::cin >> x;
+    } while (x == 'y' || x == 'Y');
+
+    return 0;
 }
